@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="tax_calculator_form">
+            <field name="name">hr_tax_extended tax_calculator_form</field>
+            <field name="model">tax.calculator</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title oe_state_size">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="starting_date"/>
+                                <field name="tax_year" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="ending_date"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Tax Slab">
+                                <field name="slab_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence" invisible='1'/>
+                                        <field name="name" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="minimum"/>
+                                        <field name="maximum"/>
+                                        <field name="base"/>
+                                        <field name="percentage"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="sequence" invisible='1'/>
+                                            <field name="name" options="{'no_create': True, 'no_open': True}"/>
+                                            <field name="minimum"/>
+                                            <field name="maximum"/>
+                                            <field name="base"/>
+                                            <field name="percentage"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Other Info">
+                                <group>
+                                    <group string="Annual Gross Income Deductions">
+                                        <field name="exempt_gross_income" widget="percentage" style="width:7.5%%"/>
+                                        <label for="higher_of_percentage" string="Higher of"/>
+                                        <div class="o_row">
+                                            <span class="text-muted">
+                                                <field name="higher_of_percentage" widget="percentage" style="width:7.5%%;margin-right:20px"/>or
+                                                <field name="higher_of_amount" style="width:40%%; margin-left:20px"/>
+                                            </span>
+                                        </div>
+                                    </group>
+                                    <group string="Minimum Taxable Salary">
+                                        <field name="minimum_taxable_salary" style="width:40%%"/>
+                                        <field name="tax_on_min_salary" widget="percentage" style="width:7.5%%"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tax_calculator_tree">
+            <field name="name">hr_tax_extended tax_calculator_tree</field>
+            <field name="model">tax.calculator</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="tax_year" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="starting_date"/>
+                    <field name="ending_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tax_calculator_search">
+            <field name="name">hr_tax_extended tax_calculator_search</field>
+            <field name="model">tax.calculator</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="tax_year"/>
+                    <field name="starting_date"/>
+                    <field name="ending_date"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_tax_calculator">
+            <field name="name">Tax Calculator</field>
+            <field name="res_model">tax.calculator</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add an New Tax Calculator.
+                </p>
+            </field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+                id="tax_calculator"
+                name="Tax Calculator"
+                parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration"
+                action="action_tax_calculator"
+                sequence='8'
+        />
+
+    </data>
+</odoo>

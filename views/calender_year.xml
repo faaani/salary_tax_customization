@@ -1,0 +1,131 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="calender_form_view">
+            <field name="name">calender.form</field>
+            <field name="model">calender.year</field>
+            <field name="arch" type="xml">
+                <form string="Calender Form">
+                    <header>
+                        <button name="create_monthly_periods" type="object" string="Create Monthly Periods"
+                                attrs="{'invisible' : [('calender_month', '=', False)]}" class="oe_highlight"/>
+                        <button name="period_close" type="object" string="Mark as done" states="open"
+                                class="oe_highlight"/>
+                        <button name="reopen_period" type="object" string="Re-open Year" states="closed"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="company" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+
+                            <group>
+
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+
+                            </group>
+                            <field name="calender_month" widget="many2many_list"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="month_tree_view">
+            <field name="name">month.tree</field>
+            <field name="model">calender.month</field>
+            <field name="arch" type="xml">
+                <tree string="Month tree" delete="false">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="open_close"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="period_tree_view">
+            <field name="name">period.tree</field>
+            <field name="model">calender.year</field>
+            <field name="arch" type="xml">
+                <tree string="Peiod tree" delete="false">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="month_form">
+            <field name="model">month.tree</field>
+            <field name="model">calender.month</field>
+            <field name="arch" type="xml">
+                <form string="Month form" delete="false">
+                    <header>
+                        <button name="period_close" type="object" string="Close Period" states="open"
+                                class="oe_highlight"/>
+                        <button name="reopen_period" type="object" string="Re-open Period" states="closed"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                            <group>
+
+                                <field name="calender_year_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="open_close"/>
+
+                            </group>
+
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="calender_list_action">
+            <field name="name">Calender Year</field>
+            <field name="res_model">calender.year</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Calender Year
+                </p>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="calender_month_action">
+            <field name="name">Periods</field>
+            <field name="res_model">calender.month</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Period
+                </p>
+            </field>
+        </record>
+        <!-- top level menu: no parent -->
+
+
+        <menuitem id="calender_root_menu" name="Calender settings" parent="hr_work_entry_contract_enterprise.menu_hr_payroll_configuration" sequence="24"/>
+        <menuitem id="calender_menu" name="Tax Calender" parent="calender_root_menu" action="calender_list_action"/>
+        <menuitem id="month_period" name="Periods" parent="calender_root_menu" action="calender_month_action"/>
+
+
+    </data>
+</odoo>
